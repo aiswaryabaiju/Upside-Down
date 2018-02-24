@@ -1,11 +1,12 @@
 import requests
-import logging
+import json
 
 API_URL = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/"
 API_PARAMS = "detect?returnFaceAttributes=emotion"
+API_FORMAT = "application/octet-stream"
+
 API_KEY_1 = "8cd2115e508b4f0c8997a6283e90f5f0"
 API_KEY_2 = "4cd7b83eae764e6cbf820b7193192e2c"
-API_FORMAT = "application/octet-stream"
 
 def make_api_call(image):
     """
@@ -28,10 +29,12 @@ def make_api_call(image):
     # Make an HTTP request for the API
     url = "{0}{1}".format(API_URL, API_PARAMS)
     response = requests.request("post", url, headers=headers, data=image)
+    assert response.status_code == 200
 
-    # Print HTTP response code and data
-    print(response.status_code)
-    print(response.content)
+    # Convert the raw bytes from the response to JSON and return
+    json_response = response.content.decode('utf8').replace("'", '"')
+    json_response = json.loads(json_response)
+    return json_response[0]["faceAttributes"]
 
 if __name__ == "__main__":
     # Test API on simple image with a humanoid
@@ -40,4 +43,4 @@ if __name__ == "__main__":
     with open(TEST_IMAGE_PATH, "rb") as f:
         test_image_data = f.read()
     
-    make_api_call(test_image_data)
+    print(make_api_call(test_image_data))
