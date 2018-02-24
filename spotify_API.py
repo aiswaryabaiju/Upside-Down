@@ -12,8 +12,11 @@ class spotify_api:
 
     def search_emotion(self, emotion):
         result = self.__sp.search(q=emotion, limit= 50, type='playlist')
-        
+        for i,t in enumerate(result['playlists']['items']):
+            print(' ',i , t['name'])
+        #fd = open('Test2.json', 'w+')
+        #json.dump(result,fd)
 
-
+#test
 x = spotify_api()
-x.search_emotion()
+x.search_emotion('Sad')
