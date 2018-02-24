@@ -1,7 +1,15 @@
 import numpy as np
 import cv2
+from tkinter import*
 
-def CamFeed():
+def cam_gui():
+    base = Tk()
+    label = Label(base, text='This is my label')
+    label.pack()
+    base.mainloop()
+    
+
+def Cam_Feed():
     """
     This function takes feed from the front facing camera and displays it in
     the screen, it takes in keyboard input; 'q' for quit (saves the image if 
@@ -47,7 +55,8 @@ def CamFeed():
 
 #NEED TO DELETE BELOW THIS THE FUTURE
 def main():
-    print(CamFeed())
+    #print(Cam_Feed())
+    cam_gui()
 
 if __name__ == "__main__":
     main()
