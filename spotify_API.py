@@ -1,6 +1,8 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import json
+import random
+
 class spotify_api:
 
     def __init__(self):
@@ -12,11 +14,27 @@ class spotify_api:
 
     def search_emotion(self, emotion):
         result = self.__sp.search(q=emotion, limit= 50, type='playlist')
-        for i,t in enumerate(result['playlists']['items']):
-            print(' ',i , t['name'])
-        #fd = open('Test2.json', 'w+')
-        #json.dump(result,fd)
+        return result['playlists']['items']
+
+    def get_random_playlist(self,e):
+        playlist_list = self.search_emotion(emotion=e)
+        index = random.randrange(0,50)
+        return (playlist_list[index]['name'])
+    
+    def search_playlist(self,e):
+        playlist = self.get_random_playlist(e=e)
+        result = self.__sp.search(q=playlist,limit=50, type='track')
+        return result['tracks']['items']
+    
+    def get_random_song(self,e):
+        song_list =  self.search_playlist(e=e)
+        index = random.randrange(0,50)
+        song_data = []
+        song_data.append(song_list[index]['name'])
+        song_data.append(song_list[index]['external_urls']['spotify'])
+        return song_data
+        
 
 #test
 x = spotify_api()
-x.search_emotion('Sad')
+print(x.get_random_song('happy'))
