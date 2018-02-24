@@ -1,64 +1,43 @@
-from tkinter import*
+import tkinter as tk
 #Imports everything from tkinter library
-from PIL import Image, ImageTk
 
+LARGE_FONT= ('Verdana', 12)
 
-class Window(Frame):
+#main gui window
+class Window(tk.Tk):
+    
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+        container = tk.Frame(self)
+        container.pack(side='top', fill='both', expand=True)
 
-    def __init__(self, master = NONE):
-        Frame.__init__(self, master)
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
 
-#Initialization
-        self.master = master
-        self.init_window()
-#Declaring and gonna make the function below
+        self.frames = {}
 
-    def init_window(self):                                                   #Initializing the window
-        self.master.title ("GUI")                                            #Title of our window = GUI
-        self.pack(fill = BOTH, expand = 1)                                   #adjusts demensions as needed and fills up the window                   #
+        frame = StartPage(container, self)
 
+        self.frames[StartPage] = frame
+        frame.grid(row=0, column=0,sticky='nsew')
+        self.show_frame(StartPage)
+    
+    def show_frame(self, cont):
+        frame = self.frames[cont]
+        frame.tkraise()
 
-        takePic = Button(self, text ="Take Picture" )    #Text that will be written on the button
-        takePic.place(x=125,y=125)
+def qf():
+    print ("HELLO\n")
 
-        menu = Menu(self.master)        #Menu reference to tkinter
-        self.master.config(menu=menu)   #Instance of the menu
+class StartPage(tk.Frame):
 
-        file = Menu(menu)               #Declaring file
-        file.add_command(label = 'About', command = self.showTxt)
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self,text='Start Page', font = LARGE_FONT)
+        label.pack(pady=10, padx=10)
 
-        file.add_command(label= 'Exit', command = self.client_exit) #Adds the Exit option under file tab
-        menu.add_cascade(label ='File', menu = file)                #Adds the file option in the menu
-
-
-        edit = Menu(menu)                                           #Adds another tab in the option menu
-        edit.add_command(label= 'Show Image', command = self.showImg)   #Adds the Undo option under edit tab
-        menu.add_cascade(label = 'Edit', menu = edit)               #Adds the Undo option in the menu
-
-
-
-
-    def showImg(self):
-        load = Image.open('Pic.png')
-        render = ImageTk.PhotoImage(load)
-
-        img = Label(self, image = render)
-        img.image = render
-        img.place (x=0,y=0)
-
-    def showTxt(self):
-        text = Label(self, text = 'Authors: mhdmessi, arehman087, antverdovsky, aiswaryabaiju')
-        text.pack()
-    def save(self):
-        exit()
-    def client_exit(self):
-        exit()
-    def edit_undo(self):
-        exit()
-
-
-root = Tk()
-root.geometry("400x300")            #GUI window dimension
-app = Window(root)
-
-root.mainloop()
+        button1 = tk.Button(self, text='visit page 1', 
+                            command=None)
+        button1.pack()
+app = Window()
+app.mainloop()
