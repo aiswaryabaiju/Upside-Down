@@ -1,4 +1,3 @@
-
 from tkinter import*
 #Imports everything from tkinter library
 from PIL import Image, ImageTk
@@ -19,8 +18,8 @@ class Window(Frame):
         self.pack(fill = BOTH, expand = 1)                                   #adjusts demensions as needed and fills up the window                   #
 
 
-        quitButton = Button(self, text ="Take Picture", command=self.client_exit)    #Text that will be written on the button
-        quitButton.place(x=125,y=125)
+        takePic = Button(self, text ="Take Picture" )    #Text that will be written on the button
+        takePic.place(x=125,y=125)
 
         menu = Menu(self.master)        #Menu reference to tkinter
         self.master.config(menu=menu)   #Instance of the menu
@@ -48,7 +47,7 @@ class Window(Frame):
         img.place (x=0,y=0)
 
     def showTxt(self):
-        text = Label(self, text = 'Aishhhhh')
+        text = Label(self, text = 'Authors: mhdmessi, arehman087, antverdovsky, aiswaryabaiju')
         text.pack()
     def save(self):
         exit()
