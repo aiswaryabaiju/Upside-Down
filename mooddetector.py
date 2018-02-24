@@ -1,7 +1,8 @@
 import requests
 import logging
 
-API_URL = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false"
+API_URL = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/"
+API_PARAMS = "detect?returnFaceAttributes=emotion"
 API_KEY_1 = "8cd2115e508b4f0c8997a6283e90f5f0"
 API_KEY_2 = "4cd7b83eae764e6cbf820b7193192e2c"
 API_FORMAT = "application/octet-stream"
@@ -25,7 +26,8 @@ def make_api_call(image):
     headers["Content-Type"] = API_FORMAT
 
     # Make an HTTP request for the API
-    response = requests.request("post", API_URL, headers=headers, data=image)
+    url = "{0}{1}".format(API_URL, API_PARAMS)
+    response = requests.request("post", url, headers=headers, data=image)
 
     # Print HTTP response code and data
     print(response.status_code)
