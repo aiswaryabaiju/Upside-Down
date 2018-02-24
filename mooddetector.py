@@ -2,7 +2,7 @@ import requests
 import json
 
 API_URL = "https://westcentralus.api.cognitive.microsoft.com/face/v1.0/"
-API_PARAMS = "detect?returnFaceAttributes=emotion"
+API_PARAMS = "detect?returnFaceAttributes=emotion,gender,age"
 API_FORMAT = "application/octet-stream"
 
 API_KEY_1 = "8cd2115e508b4f0c8997a6283e90f5f0"
