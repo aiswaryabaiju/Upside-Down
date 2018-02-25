@@ -82,9 +82,15 @@ class result_page(tk.Frame):
         label = tk.Label(self,text='Result Page', font = LARGE_FONT)
         label.pack(pady=10, padx=10)
 
+        links = tk.Listbox(self)
+        
+        for i in range(1, 20):
+            links.insert(i,"TEST")
+        links.pack( fill='x')
+
         button1 = tk.Button(self, text='Go home', 
                             command=lambda: controller.show_frame(StartPage))
-        button1.pack()
+        button1.pack(side='bottom')
 
 app = Window()
 app.mainloop()
