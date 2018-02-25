@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 #Imports everything from tkinter library
 
 LARGE_FONT= ('Verdana', 12)
@@ -15,7 +16,22 @@ class Window(tk.Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
+        menu_bar = tk.Menu(container)
 
+        file_menu = tk.Menu(menu_bar, tearoff=0)
+        file_menu.add_command(label='Exit', command=quit)
+        menu_bar.add_cascade(label= 'File', menu=file_menu)
+
+        about_menu = tk.Menu(menu_bar, tearoff=0)
+        about_menu.add_command(label='About', 
+                                command=lambda:tk.messagebox.showinfo('About', 
+                                'Abdul Rehman - arehman087\n' +
+                                'Anatoly Tverdovsky - antverdovsky\n'+
+                                'Aiswarya Baiju - aiswaryabaiju\n'+
+                                'Mohammad Abdul Salam - mhdmessi'))
+        
+        menu_bar.add_cascade(label='Help', menu=about_menu)
+        tk.Tk.config(self, menu=menu_bar)
         self.frames = {}
 
         for F in (StartPage, cam_page, result_page):
