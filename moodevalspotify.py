@@ -85,5 +85,3 @@ class spotify_api:
         
 
 #test delete later
-x = spotify_api('happy')
-print(x.get_random_song())

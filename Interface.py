@@ -1,6 +1,10 @@
 import tkinter as tk
 from tkinter import messagebox
-#Imports everything from tkinter library
+import threading
+import Cam
+import data
+from pynput.keyboard import Key, Controller
+import time
 
 LARGE_FONT= ('Verdana', 12)
 
@@ -63,18 +67,36 @@ class cam_page(tk.Frame):
         label = tk.Label(self,text='Camera Page', font = LARGE_FONT)
         label.pack(pady=10, padx=10)
         #implement portion that takes camerafeed and displays it to the user
-        cam_button = tk.Button(self, text='Get Take Picture', 
-                            command=lambda: None) #takes the picture by throwing keyinterrupt
-        cam_button.pack(side='left')
+
+        t = threading.Thread(target=Cam.Cam_Feed)
+        t.start()
+        self.__cam_button = tk.Button(self, text='Take Picture', 
+                            command=lambda: self.take_pic(controller)) #takes the picture by throwing keyinterrupt
+        self.__cam_button.pack(side='left')
         
-        res_button = tk.Button(self, text='Get Results!', 
-                            command=lambda: controller.show_frame(result_page))
-        res_button.pack(side='right')
+        
+    
+    def take_pic(self, cont):
+        qqq
+        self.__cam_button.destroy()
+        self.__res_button = tk.Button(self, text='Get Results!', 
+                            command=lambda: cont.show_frame(result_page))
+        self.__res_button.pack(side='right')
 
-        recam_button = tk.Button(self, text='Retake Picture', 
-                            command=lambda: controller.show_frame(cam_page))
-        recam_button.pack(side='left')
+        self.__recam_button = tk.Button(self, text='Retake Picture', 
+                            command=lambda: self.reTake_pic(cont))
+        self.__recam_button.pack(side='left')
 
+    def reTake_pic(self, cont):
+        self.__cam_button = tk.Button(self, text='Take Picture', 
+                            command=lambda:self.take_pic(cont) ) #takes the picture by throwing keyinterrupt
+        self.__cam_button.pack(side='left')
+
+        self.__recam_button.destroy()
+        self.__res_button.destroy()
+    
+    def get_result(self, cont):
+        pass
 class result_page(tk.Frame):
 
     def __init__(self, parent, controller):

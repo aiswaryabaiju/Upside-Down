@@ -1,13 +1,7 @@
-import numpy as np
+
 import cv2
 from tkinter import*
 
-def cam_gui():
-    base = Tk()
-    label = Label(base, text='This is my label')
-    label.pack()
-    base.mainloop()
-    
 
 def Cam_Feed():
     """
@@ -38,7 +32,7 @@ def Cam_Feed():
             while (True):
                 #if user presses 'q' then the frame is saved
                 #to a file 
-                if cv2.waitKey(1) & 0xFF == ord('q'):
+                if cv2.waitKey(1) & 0xFF == ord('w'):
                     cv2.imwrite('tst.jpeg', frame)
                     cap.release()
                     cv2.destroyAllWindows()
@@ -52,11 +46,3 @@ def Cam_Feed():
     cap.release()
     cv2.destroyAllWindows()
     return False
-
-#NEED TO DELETE BELOW THIS THE FUTURE
-def main():
-    #print(Cam_Feed())
-    cam_gui()
-
-if __name__ == "__main__":
-    main()

@@ -9,8 +9,5 @@ def listA(keyword, limit):
 	#TODO: fix limit on spotify
 	sptLst = spt.get_random_song()
 
-	listA = []
-	listA.append(video)
-	listA.append(gif)
-	listA.append(sptLst)
-	return listA
+	listb = video+gif+sptLst
+	return listb
