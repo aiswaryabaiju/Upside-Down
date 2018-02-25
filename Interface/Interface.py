@@ -1,64 +1,90 @@
-from tkinter import*
+import tkinter as tk
+from tkinter import messagebox
 #Imports everything from tkinter library
-from PIL import Image, ImageTk
+
+LARGE_FONT= ('Verdana', 12)
+
+#main gui window
+class Window(tk.Tk):
+    
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+        tk.Tk.wm_title(self, 'Upside-Down')
+
+        container = tk.Frame(self)   
+        container.pack(side='top', fill='both', expand=True)
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
+        menu_bar = tk.Menu(container)
+
+        file_menu = tk.Menu(menu_bar, tearoff=0)
+        file_menu.add_command(label='Exit', command=quit)
+        menu_bar.add_cascade(label= 'File', menu=file_menu)
+
+        about_menu = tk.Menu(menu_bar, tearoff=0)
+        about_menu.add_command(label='About', 
+                                command=lambda:tk.messagebox.showinfo('About', 
+                                'Abdul Rehman - arehman087\n' +
+                                'Anatoly Tverdovsky - antverdovsky\n'+
+                                'Aiswarya Baiju - aiswaryabaiju\n'+
+                                'Mohammad Abdul Salam - mhdmessi'))
+        
+        menu_bar.add_cascade(label='Help', menu=about_menu)
+        tk.Tk.config(self, menu=menu_bar)
+        self.frames = {}
+
+        for F in (StartPage, cam_page, result_page):
+            frame = F(container, self)
+            self.frames[F] = frame
+            frame.grid(row=0, column=0,sticky='nsew')
+        self.show_frame(StartPage)
+    
+    def show_frame(self, cont):
+        frame = self.frames[cont]
+        frame.tkraise()
 
 
-class Window(Frame):
+class StartPage(tk.Frame):
 
-    def __init__(self, master = NONE):
-        Frame.__init__(self, master)
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self,text='Start Page', font = LARGE_FONT)
+        label.pack(pady=10, padx=10)
 
-#Initialization
-        self.master = master
-        self.init_window()
-#Declaring and gonna make the function below
+        button1 = tk.Button(self, text='Take a Picture!', 
+                            command=lambda: controller.show_frame(cam_page))
+        button1.pack()
 
-    def init_window(self):                                                   #Initializing the window
-        self.master.title ("GUI")                                            #Title of our window = GUI
-        self.pack(fill = BOTH, expand = 1)                                   #adjusts demensions as needed and fills up the window                   #
+class cam_page(tk.Frame):
 
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self,text='Camera Page', font = LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        #implement portion that takes camerafeed and displays it to the user
+        cam_button = tk.Button(self, text='Get Take Picture', 
+                            command=lambda: None) #takes the picture by throwing keyinterrupt
+        cam_button.pack(side='left')
+        
+        res_button = tk.Button(self, text='Get Results!', 
+                            command=lambda: controller.show_frame(result_page))
+        res_button.pack(side='right')
 
-        takePic = Button(self, text ="Take Picture" )    #Text that will be written on the button
-        takePic.place(x=125,y=125)
+        recam_button = tk.Button(self, text='Retake Picture', 
+                            command=lambda: controller.show_frame(cam_page))
+        recam_button.pack(side='left')
 
-        menu = Menu(self.master)        #Menu reference to tkinter
-        self.master.config(menu=menu)   #Instance of the menu
+class result_page(tk.Frame):
 
-        file = Menu(menu)               #Declaring file
-        file.add_command(label = 'About', command = self.showTxt)
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self,text='Result Page', font = LARGE_FONT)
+        label.pack(pady=10, padx=10)
 
-        file.add_command(label= 'Exit', command = self.client_exit) #Adds the Exit option under file tab
-        menu.add_cascade(label ='File', menu = file)                #Adds the file option in the menu
+        button1 = tk.Button(self, text='Go home', 
+                            command=lambda: controller.show_frame(StartPage))
+        button1.pack()
 
-
-        edit = Menu(menu)                                           #Adds another tab in the option menu
-        edit.add_command(label= 'Show Image', command = self.showImg)   #Adds the Undo option under edit tab
-        menu.add_cascade(label = 'Edit', menu = edit)               #Adds the Undo option in the menu
-
-
-
-
-    def showImg(self):
-        load = Image.open('Pic.png')
-        render = ImageTk.PhotoImage(load)
-
-        img = Label(self, image = render)
-        img.image = render
-        img.place (x=0,y=0)
-
-    def showTxt(self):
-        text = Label(self, text = 'Authors: mhdmessi, arehman087, antverdovsky, aiswaryabaiju')
-        text.pack()
-    def save(self):
-        exit()
-    def client_exit(self):
-        exit()
-    def edit_undo(self):
-        exit()
-
-
-root = Tk()
-root.geometry("400x300")            #GUI window dimension
-app = Window(root)
-
-root.mainloop()
+app = Window()
+app.mainloop()
