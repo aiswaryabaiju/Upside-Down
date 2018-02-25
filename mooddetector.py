@@ -36,11 +36,3 @@ def make_api_call(image):
     json_response = json.loads(json_response)
     return json_response[0]["faceAttributes"]
 
-if __name__ == "__main__":
-    # Test API on simple image with a humanoid
-    TEST_IMAGE_PATH = "res/deepu_bee.jpg"
-    test_image_data = None
-    with open(TEST_IMAGE_PATH, "rb") as f:
-        test_image_data = f.read()
-    
-    print(make_api_call(test_image_data))

@@ -5,6 +5,8 @@ import Cam
 import data
 from pynput.keyboard import Key, Controller
 import time
+import mooddetector
+import os
 
 LARGE_FONT= ('Verdana', 12)
 
@@ -74,13 +76,14 @@ class cam_page(tk.Frame):
                             command=lambda: self.take_pic(controller)) #takes the picture by throwing keyinterrupt
         self.__cam_button.pack(side='left')
         
-        
     
     def take_pic(self, cont):
-        qqq
+        time.sleep(10)
+        Controller().press('s')
+        Controller().release('s')
         self.__cam_button.destroy()
         self.__res_button = tk.Button(self, text='Get Results!', 
-                            command=lambda: cont.show_frame(result_page))
+                            command=lambda: self.get_result(cont))
         self.__res_button.pack(side='right')
 
         self.__recam_button = tk.Button(self, text='Retake Picture', 
@@ -88,6 +91,9 @@ class cam_page(tk.Frame):
         self.__recam_button.pack(side='left')
 
     def reTake_pic(self, cont):
+        time.sleep(10)
+        Controller().press('r')
+        Controller().release('r')
         self.__cam_button = tk.Button(self, text='Take Picture', 
                             command=lambda:self.take_pic(cont) ) #takes the picture by throwing keyinterrupt
         self.__cam_button.pack(side='left')
@@ -96,7 +102,12 @@ class cam_page(tk.Frame):
         self.__res_button.destroy()
     
     def get_result(self, cont):
-        pass
+        time.sleep(10)
+        Controller().press('w')
+        Controller().release('w')
+        cont.show_frame(result_page)
+
+
 class result_page(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -107,10 +118,21 @@ class result_page(tk.Frame):
         scrollbar_v = tk.Scrollbar(self)
         scrollbar_v.pack(side='right', fill='y')
         links = tk.Listbox(self,yscrollcommand=scrollbar_v.set)
-        
+        while (True):
+            if os.path.exists(tst.jpeg) == True:
+                TEST_IMAGE_PATH = "tst.jpeg"
+                test_image_data = None
+                with open(TEST_IMAGE_PATH, "rb") as f:
+                    test_image_data = f.read()
+                break
+    
+        emo_list = mooddetector.make_api_call(test_image_data)
+        print(emo_list)
         #insert data into Listboxes
-
-        links.pack( fill='x')
+        datapt = data.listA('happy', 5)
+        for i in range(0, len(datapt)):
+            links.insert(i+1, datapt[i])
+        links.pack( fill='both')
 
         scrollbar_v.config(command=links.yview)
 
@@ -118,5 +140,9 @@ class result_page(tk.Frame):
                             command=lambda: controller.show_frame(StartPage))
         button1.pack(side='bottom')
 
-app = Window()
-app.mainloop()
+def main():
+    app = Window()
+    app.mainloop()
+
+if __name__ == "__main__": 
+    main()
