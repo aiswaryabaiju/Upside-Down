@@ -82,11 +82,15 @@ class result_page(tk.Frame):
         label = tk.Label(self,text='Result Page', font = LARGE_FONT)
         label.pack(pady=10, padx=10)
 
-        links = tk.Listbox(self)
+        scrollbar_v = tk.Scrollbar(self)
+        scrollbar_v.pack(side='right', fill='y')
+        links = tk.Listbox(self,yscrollcommand=scrollbar_v.set)
         
-        for i in range(1, 20):
-            links.insert(i,"TEST")
+        #insert data into Listboxes
+
         links.pack( fill='x')
+
+        scrollbar_v.config(command=links.yview)
 
         button1 = tk.Button(self, text='Go home', 
                             command=lambda: controller.show_frame(StartPage))
