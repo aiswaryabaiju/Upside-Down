@@ -52,7 +52,7 @@ class StartPage(tk.Frame):
         label = tk.Label(self,text='Start Page', font = LARGE_FONT)
         label.pack(pady=10, padx=10)
 
-        button1 = tk.Button(self, text='visit page 1', 
+        button1 = tk.Button(self, text='Take a Picture!', 
                             command=lambda: controller.show_frame(cam_page))
         button1.pack()
 
@@ -62,10 +62,18 @@ class cam_page(tk.Frame):
         tk.Frame.__init__(self, parent)
         label = tk.Label(self,text='Camera Page', font = LARGE_FONT)
         label.pack(pady=10, padx=10)
-
-        button1 = tk.Button(self, text='Get Result', 
+        #implement portion that takes camerafeed and displays it to the user
+        cam_button = tk.Button(self, text='Get Take Picture', 
+                            command=lambda: None) #takes the picture by throwing keyinterrupt
+        cam_button.pack(side='left')
+        
+        res_button = tk.Button(self, text='Get Results!', 
                             command=lambda: controller.show_frame(result_page))
-        button1.pack()
+        res_button.pack(side='right')
+
+        recam_button = tk.Button(self, text='Retake Picture', 
+                            command=lambda: controller.show_frame(cam_page))
+        recam_button.pack(side='left')
 
 class result_page(tk.Frame):
 
