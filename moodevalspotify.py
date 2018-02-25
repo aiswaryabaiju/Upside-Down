@@ -15,7 +15,7 @@ class spotify_api:
     of the user.
     """
 
-    def __init__(self, emotion):
+    def __init__(self, emotion, limit):
         """
         Constructor initialiazes spotify instance and client ID and key.
         
@@ -32,6 +32,7 @@ class spotify_api:
         self.__sp = \
             spotipy.Spotify(client_credentials_manager=client_credentials_manager)
         self.__emotion = emotion
+        self.__limit = limit
 
     def search_emotion(self):
         """
@@ -41,7 +42,7 @@ class spotify_api:
             list of the json objects of top 50 the playlists that were found.
         """
 
-        result = self.__sp.search(q=self.__emotion, limit= 50, type='playlist')
+        result = self.__sp.search(q=self.__emotion, limit= self.__limit, type='playlist')
         return result['playlists']['items']
 
     def get_random_playlist(self):
@@ -66,7 +67,7 @@ class spotify_api:
 
         """
         playlist = self.get_random_playlist()
-        result = self.__sp.search(q=playlist,limit=50, type='track')
+        result = self.__sp.search(q=playlist,limit=self.__limit, type='track')
         return result['tracks']['items']
     
     def get_random_song(self):
@@ -83,5 +84,3 @@ class spotify_api:
             song_data.append(song_list[i]['external_urls']['spotify'])
         return song_data
         
-
-#test delete later
