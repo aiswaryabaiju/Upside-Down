@@ -1,5 +1,5 @@
 # Upside-Down
-HackIllinois 2018
+
 
 ## Summary
 Upside Down is a GUI utility which captures the user's picture, analyzes their current emotions and expressions and recommends them entertainment for them to view, based on their current emotional profile.
